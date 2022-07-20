@@ -3,9 +3,12 @@ import Brands from './Brands'
 
 function App() {
   return (
-    <div className="App">
-      <Brands />
-    </div>
+    <>
+     <h1 className={'m-5'}> Group Brand Purchase App </h1>
+      <div className="App">
+        <Brands />
+      </div>
+    </>
   );
 }
 
