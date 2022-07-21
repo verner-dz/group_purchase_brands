@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {furnitureBrands} from '../seed'
-import Brand from './Brand'
+import GroupPurchase from './GroupPurchase'
 
 
 function GroupPurchasesPanel(props) {
@@ -11,42 +11,33 @@ function GroupPurchasesPanel(props) {
 
 
   useEffect(() => {
-    furnitureBrands.map((brand, index) => {
-      return setBrandsReference(brandsReference => ({...brandsReference, [brand.id]: index}))
+    furnitureBrands.forEach((brand, index) => {
+      setBrandsReference(brandsReference => ({...brandsReference, [brand.id]: index}))
     })
   }, [])
 
+  useEffect(() => {
+    let currentPurchases = []
 
-  // useEffect(() => {
-  //   let currentPurchases = []
+    props.currentPurchaseIds.forEach((brandId) => {
+      let reference = brandsReference[brandId]
+      let purchaseObject = furnitureBrands[reference]
+      currentPurchases.push(purchaseObject)
+    })
 
-  //   console.log(props, props)
+    setGroupPurchases([...groupPurchases, currentPurchases])
 
-  //   props.currentPurchaseIds.forEach((id) => {
-  //     let reference = brandsReference[id]
+  }, [props.currentPurchaseIds])
 
-  //     let purchaseObject = furnitureBrands[reference]
-
-  //     currentPurchases.push(purchaseObject)
-
-  //   })
-
-  //   // setGroupPurchases([...groupPurchases, currentPurchases])
-
-  // }, [props.currentPurchaseIds])
-
-
-
-  // const [currentPurchases, setCurrentPurchases] = useState(new Set())
 
 
   return (
     <div className={'container'}>
-        {furnitureBrands.map((brand) => {
+        {groupPurchases.map((groupPurchase, index) => {
 
           return (
-            <div className={'col'} key={brand.id}>
-              <Brand name={ brand.name} />
+            <div key={index}>
+              <GroupPurchase purchases={groupPurchase}/>
             </div>
           )
         })}

@@ -6,6 +6,7 @@ import GroupPurchasesPanel from './GroupPurchasesPanel'
 
 function Purchase() {
   const [currentPurchases, setCurrentPurchases] = useState(new Set())
+  const [confirmedPurchases, setConfirmedPurchases] = useState([])
 
   const removePurchase = (brandId) => {
     setCurrentPurchases(prev => {
@@ -22,7 +23,7 @@ function Purchase() {
   }
 
 
-  const handlePurchase = (event, brandId) => {
+  const handleCurrentPurchase = (event, brandId) => {
     // toggle selected brands
     event.currentTarget.classList.toggle('add-background');
 
@@ -34,9 +35,28 @@ function Purchase() {
     }
   }
 
-  useEffect(() => {
-    console.log(currentPurchases)
-  }, [currentPurchases])
+  // useEffect(() => {
+  //   console.log(currentPurchases)
+  // }, [currentPurchases])
+
+  const handleConfirmedPurchase = () => {
+    // convert set to array
+    let confirmedCurrentPurchases = Array.from(currentPurchases)
+
+    setConfirmedPurchases(confirmedCurrentPurchases)
+
+    // remove add-background to all selected classes
+    removeBackgrounds()
+  }
+
+  const removeBackgrounds = () => {
+    const backgrounds = document.querySelectorAll('.add-background');
+
+    backgrounds.forEach(background => {
+      // background.remove('add-background');
+      background.classList.toggle('add-background')
+    });
+  }
 
 
   return(
@@ -49,7 +69,7 @@ function Purchase() {
               {furnitureBrands.map((brand) => {
 
                 return (
-                  <div className={'col'} key={brand.id} onClick={(event) => handlePurchase(event, brand.id)}>
+                  <div className={'col'} key={brand.id} onClick={(event) => handleCurrentPurchase(event, brand.id)}>
                     <Brand name={ brand.name} />
                   </div>
                 )
@@ -58,12 +78,12 @@ function Purchase() {
 
           </div>
 
-          <button type="button" className={'btn btn-primary'} disabled={!currentPurchases.size}> Purchase </button>
+          <button type="button" className={'btn btn-primary'} disabled={!currentPurchases.size} onClick={() => handleConfirmedPurchase()}> Purchase </button>
         </div>
 
         <div className={'col-md-4 border-start'}>
           <h1> Group Purchases </h1>
-          <GroupPurchasesPanel currentPurchaseIds={currentPurchases} />
+          <GroupPurchasesPanel currentPurchaseIds={confirmedPurchases} />
         </div>
       </div>
      </>
