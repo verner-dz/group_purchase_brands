@@ -7,30 +7,30 @@ import GroupPurchasesPanel from './GroupPurchasesPanel'
 function Purchase() {
   const [currentPurchases, setCurrentPurchases] = useState(new Set())
 
-  const removePurchase = (brand_id) => {
+  const removePurchase = (brandId) => {
     setCurrentPurchases(prev => {
       const remainingPurchases = new Set(prev)
 
-      remainingPurchases.delete(brand_id)
+      remainingPurchases.delete(brandId)
 
       return remainingPurchases
     })
   }
 
-  const addPurchase = (brand_id) => {
-    setCurrentPurchases(prev => new Set(prev).add(brand_id))
+  const addPurchase = (brandId) => {
+    setCurrentPurchases(prev => new Set(prev).add(brandId))
   }
 
 
-  const handlePurchase = (event, brand_id) => {
+  const handlePurchase = (event, brandId) => {
     // toggle selected brands
     event.currentTarget.classList.toggle('add-background');
 
 
-    if (currentPurchases.has(brand_id)) {
-      removePurchase(brand_id)
+    if (currentPurchases.has(brandId)) {
+      removePurchase(brandId)
     } else {
-      addPurchase(brand_id)
+      addPurchase(brandId)
     }
   }
 
@@ -61,8 +61,9 @@ function Purchase() {
           <button type="button" className={'btn btn-primary'} disabled={!currentPurchases.size}> Purchase </button>
         </div>
 
-        <div className={'col-md-4'}>
-          <GroupPurchasesPanel />
+        <div className={'col-md-4 border-start'}>
+          <h1> Group Purchases </h1>
+          <GroupPurchasesPanel currentPurchaseIds={currentPurchases} />
         </div>
       </div>
      </>
