@@ -1,35 +1,43 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {furnitureBrands} from '../seed'
 import Brand from './Brand'
 import GroupPurchasesPanel from './GroupPurchasesPanel'
 
 
 function Purchase() {
-  const [currentPurchases, setCurrentPurchases] = useState([])
+  const [currentPurchases, setCurrentPurchases] = useState(new Set())
 
-  const handlePurchase = (event, brand) => {
+  const removePurchase = (brand_id) => {
+    setCurrentPurchases(prev => {
+      const remainingPurchases = new Set(prev)
 
+      remainingPurchases.delete(brand_id)
+
+      return remainingPurchases
+    })
+  }
+
+  const addPurchase = (brand_id) => {
+    setCurrentPurchases(prev => new Set(prev).add(brand_id))
+  }
+
+
+  const handlePurchase = (event, brand_id) => {
+    // toggle selected brands
     event.currentTarget.classList.toggle('add-background');
 
-    let currentPurchaseIds = currentPurchases.map(currentPurchase => currentPurchase.id)
 
-    if (currentPurchaseIds.includes(brand.id)) {
-
-      let modifiedPurchases = currentPurchases
-
-      modifiedPurchases = modifiedPurchases.filter(currentPurchase => {
-        return currentPurchase.id !== brand.id
-      })
-
-      setCurrentPurchases(modifiedPurchases)
-
+    if (currentPurchases.has(brand_id)) {
+      removePurchase(brand_id)
     } else {
-      let modifiedPurchases = currentPurchases
-      modifiedPurchases.push(brand)
-      setCurrentPurchases(modifiedPurchases)
-
+      addPurchase(brand_id)
     }
   }
+
+  useEffect(() => {
+    console.log(currentPurchases)
+  }, [currentPurchases])
+
 
   return(
     <>
@@ -50,7 +58,7 @@ function Purchase() {
 
           </div>
 
-          <button type="button" className={'btn btn-primary'} disabled={!currentPurchases.length}> Purchase </button>
+          <button type="button" className={'btn btn-primary'} disabled={!currentPurchases.size}> Purchase </button>
         </div>
 
         <div className={'col-md-4'}>
