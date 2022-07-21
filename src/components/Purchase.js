@@ -7,7 +7,9 @@ import GroupPurchasesPanel from './GroupPurchasesPanel'
 function Purchase() {
   const [currentPurchases, setCurrentPurchases] = useState([])
 
-  const handlePurchase = (brand) => {
+  const handlePurchase = (event, brand) => {
+
+    event.currentTarget.classList.toggle('add-background');
 
     let currentPurchaseIds = currentPurchases.map(currentPurchase => currentPurchase.id)
 
@@ -39,7 +41,7 @@ function Purchase() {
               {furnitureBrands.map((brand) => {
 
                 return (
-                  <div className={'col'} key={brand.id} onClick={() => handlePurchase(brand)}>
+                  <div className={'col'} key={brand.id} onClick={(event) => handlePurchase(event, brand.id)}>
                     <Brand name={ brand.name} />
                   </div>
                 )
@@ -48,7 +50,7 @@ function Purchase() {
 
           </div>
 
-          <button type="button" className={'btn btn-primary'}> Purchase </button>
+          <button type="button" className={'btn btn-primary'} disabled={!currentPurchases.length}> Purchase </button>
         </div>
 
         <div className={'col-md-4'}>

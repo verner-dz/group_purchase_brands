@@ -12,6 +12,6 @@ code {
     monospace;
 }
 
-.box:hover {
+.box:hover, .add-background {
   background-color: #bbdff2;
 }
