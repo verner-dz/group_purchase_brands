@@ -1,7 +1,7 @@
 function GroupPurchase(props) {
 
   return (
-    <div>
+    <div className={'container border'}>
       {props.purchases.map((purchase) => {
           return(
             <div key={purchase.id}>{purchase.name}</div>

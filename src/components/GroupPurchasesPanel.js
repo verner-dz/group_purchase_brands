@@ -4,9 +4,7 @@ import GroupPurchase from './GroupPurchase'
 
 
 function GroupPurchasesPanel(props) {
-  // const [brandsReference, setBrandsReference] = useState({})
   const [brandsReference, setBrandsReference] = useState({})
-
   const [groupPurchases, setGroupPurchases] = useState([])
 
 

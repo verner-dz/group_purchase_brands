@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import {furnitureBrands} from '../seed'
 import Brand from './Brand'
 import GroupPurchasesPanel from './GroupPurchasesPanel'
@@ -35,10 +35,6 @@ function Purchase() {
     }
   }
 
-  // useEffect(() => {
-  //   console.log(currentPurchases)
-  // }, [currentPurchases])
-
   const handleConfirmedPurchase = () => {
     // convert set to array
     let confirmedCurrentPurchases = Array.from(currentPurchases)
@@ -47,13 +43,15 @@ function Purchase() {
 
     // remove add-background to all selected classes
     removeBackgrounds()
+
+    // remove currentPurchases
+    setCurrentPurchases(new Set())
   }
 
   const removeBackgrounds = () => {
     const backgrounds = document.querySelectorAll('.add-background');
 
     backgrounds.forEach(background => {
-      // background.remove('add-background');
       background.classList.toggle('add-background')
     });
   }
